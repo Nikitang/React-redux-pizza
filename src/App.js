@@ -2,7 +2,10 @@ import "./scss/app.scss";
 import Header from "./components/Header.jsx";
 import Categories from "./components/Categories.jsx";
 import Sort from "./components/Sort.jsx";
-import Pizzas from "./components/Pizzas.jsx";
+import PizzaBlock from "./components/PizzaBlock.jsx";
+import pizzas from "./assets/pizzas.json";
+
+console.log(pizzas);
 
 function App() {
   return (
@@ -16,7 +19,9 @@ function App() {
           </div>
           <h2 className="content__title">Все пиццы</h2>
           <div className="content__items">
-            <Pizzas />
+            {pizzas.map((pizza) => (
+              <PizzaBlock key={pizza.id} {...pizza} />
+            ))}
           </div>
         </div>
       </div>
