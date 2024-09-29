@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-function Categories() {
-  const [activeI, setActiveI] = useState(0);
+function Categories({ value, fn }) {
   const arrCategories = [
     "Все",
     "Мясные",
@@ -17,8 +16,8 @@ function Categories() {
           return (
             <li
               key={item}
-              className={activeI === i ? "active" : ""}
-              onClick={() => setActiveI(i)}
+              className={value === i ? "active" : ""}
+              onClick={() => fn(i)}
             >
               {item}
             </li>
