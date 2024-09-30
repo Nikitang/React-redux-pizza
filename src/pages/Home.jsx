@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 
 import Categories from "../components/Categories.jsx";
@@ -6,8 +6,10 @@ import Sort from "../components/Sort.jsx";
 import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton.jsx";
 import Pagination from "../components/Pagination";
+import { Context } from "../App.js";
 
-function Home({ searchValue }) {
+function Home() {
+  const { value } = useContext(Context);
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [categoryId, setCateegoryId] = useState(0);
@@ -19,7 +21,7 @@ function Home({ searchValue }) {
 
     const sortingForTitle = sort.sort === "title" ? "asc" : "desc";
     const sortingForCategory = categoryId > 0 ? `category=${categoryId}` : "";
-    const searchingForTitle = searchValue ? `&search=${searchValue}` : "";
+    const searchingForTitle = value ? `&search=${value}` : "";
 
     const fetching = async () => {
       try {
@@ -36,7 +38,7 @@ function Home({ searchValue }) {
     fetching();
 
     window.scrollTo(0, 0);
-  }, [categoryId, sort, searchValue, currentPage]);
+  }, [categoryId, sort, value, currentPage]);
 
   const skeletons = [...new Array(6)].map((_, i) => <Skeleton key={i} />);
   const pizzas = items.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
