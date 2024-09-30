@@ -1,6 +1,12 @@
 import "./scss/app.scss";
 import React, { useState, createContext } from "react";
 import { Routes, Route } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  increment,
+  decrement,
+  incrementByAmount,
+} from "./redux/slices/filterSlice";
 
 import Header from "./components/Header.jsx";
 import Home from "./pages/Home.jsx";
@@ -11,9 +17,30 @@ export const Context = createContext();
 
 function App() {
   const [searchValue, setSearchValue] = useState("");
+  const count = useSelector((state) => state.counter.value);
+  const dispatch = useDispatch();
 
   return (
     <div className="wrapper">
+      <button
+        aria-label="Increment value"
+        onClick={() => dispatch(increment())}
+      >
+        Increment
+      </button>
+      <span>{count}</span>
+      <button
+        aria-label="Decrement value"
+        onClick={() => dispatch(decrement())}
+      >
+        Decrement
+      </button>
+      <button
+        aria-label="Decrement value"
+        onClick={() => dispatch(incrementByAmount(10))}
+      >
+        IncBy
+      </button>
       <Context.Provider value={{ value: searchValue, fn: setSearchValue }}>
         <Header />
         <div className="content">
