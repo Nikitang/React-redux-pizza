@@ -1,15 +1,20 @@
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { setSort } from "../redux/slices/filterSlice";
 
-function Sort({ value, fn }) {
+function Sort() {
+  const sort = useSelector((state) => state.filterSlice.sort);
+  const dispatch = useDispatch();
+
   const [isVisible, setIsVisible] = useState(false);
   const sortMenu = [
-    { name: "Популярности", sort: "rating" },
-    { name: "Цене", sort: "price" },
-    { name: "Алфавиту", sort: "title" },
+    { name: "Популярности", sortParam: "rating" },
+    { name: "Цене", sortParam: "price" },
+    { name: "Алфавиту", sortParam: "title" },
   ];
 
   const selectedItem = (object) => {
-    fn(object);
+    dispatch(setSort(object));
     setIsVisible(false);
   };
 
@@ -29,7 +34,7 @@ function Sort({ value, fn }) {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setIsVisible(!isVisible)}>{value.name}</span>
+        <span onClick={() => setIsVisible(!isVisible)}>{sort.name}</span>
       </div>
       {isVisible && (
         <div className="sort__popup">
@@ -38,7 +43,7 @@ function Sort({ value, fn }) {
               return (
                 <li
                   key={i}
-                  className={value.sort === obj.sort ? "active" : ""}
+                  className={sort.sortParam === obj.sortParam ? "active" : ""}
                   onClick={() => selectedItem(obj)}
                 >
                   {obj.name}
