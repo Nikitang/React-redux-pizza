@@ -8,8 +8,8 @@ function Sort({ value, fn }) {
     { name: "Алфавиту", sort: "title" },
   ];
 
-  const selectedItem = (index) => {
-    fn(index);
+  const selectedItem = (object) => {
+    fn(object);
     setIsVisible(false);
   };
 

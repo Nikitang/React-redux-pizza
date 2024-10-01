@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
 
 import Categories from "../components/Categories.jsx";
 import Sort from "../components/Sort.jsx";
@@ -7,19 +8,24 @@ import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton.jsx";
 import Pagination from "../components/Pagination";
 import { Context } from "../App.js";
+import { setCategoryId, setSort } from "../redux/slices/filterSlice.js";
 
 function Home() {
+  const categoryId = useSelector((state) => state.filterSlice.categoryId);
+  const sort = useSelector((state) => state.filterSlice.sort);
+  const dispatch = useDispatch();
+
   const { value } = useContext(Context);
   const [items, setItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [categoryId, setCateegoryId] = useState(0);
-  const [sort, setSort] = useState({ name: "Популярности", sort: "rating" });
+  // const [categoryId, setCateegoryId] = useState(0);
+  // const [sort, setSort] = useState({ name: "Популярности", sort: "rating" });
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     setIsLoading(true);
 
-    const sortingForTitle = sort.sort === "title" ? "asc" : "desc";
+    const sortingForTitle = sort.sortParam === "title" ? "desc" : "asc";
     const sortingForCategory = categoryId > 0 ? `category=${categoryId}` : "";
     const searchingForTitle = value ? `&search=${value}` : "";
 
@@ -46,8 +52,8 @@ function Home() {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories value={categoryId} fn={setCateegoryId} />
-        <Sort value={sort} fn={setSort} />
+        <Categories value={categoryId} fn={(id) => dispatch(setCategoryId(id))} />
+        <Sort value={sort} fn={(i) => dispatch(setSort(i))} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? skeletons : pizzas}</div>
