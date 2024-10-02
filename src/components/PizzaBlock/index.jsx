@@ -6,7 +6,9 @@ const typesPizza = ["Тонкое", "Традиционное"];
 
 function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
   const dispatch = useDispatch();
-  const cartItem = useSelector((state) => state.cartSlice.items.find((obj) => obj.id === id));
+  const cartItem = useSelector((state) =>
+    state.cartSlice.items.find((obj) => obj.id === id)
+  );
   const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(0);
 
@@ -19,10 +21,10 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
       price,
       imageUrl,
       type: typesPizza[activeType],
-      size: activeSize,
-    }
-    dispatch(addItem(item))
-  }
+      size: sizes[activeSize],
+    };
+    dispatch(addItem(item));
+  };
 
   return (
     <div className="pizza-block-wrapper">
@@ -55,7 +57,10 @@ function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
         </div>
         <div className="pizza-block__bottom">
           <div className="pizza-block__price">от {price} ₽</div>
-          <button onClick={onClickAdd} className="button button--outline button--add">
+          <button
+            onClick={onClickAdd}
+            className="button button--outline button--add"
+          >
             <svg
               width="12"
               height="12"

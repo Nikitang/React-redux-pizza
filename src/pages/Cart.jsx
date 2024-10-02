@@ -1,11 +1,27 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+
 import CartItem from "../components/CartItem";
+import { clearItems } from "../redux/slices/cartSlice";
+import CartEmpty from "../components/CartEmpty";
 
 function Cart() {
   const dispatch = useDispatch();
-  const items = useSelector((state) => state.cartSlice.items);
+  const { totalPrice, items } = useSelector((state) => state.cartSlice);
+
+  const totalCount = items.reduce((acc, item) => acc + item.count, 0);
+
+  const onClickClear = () => {
+    if (window.confirm("Are you sure you want to clear all?")) {
+      dispatch(clearItems());
+    }
+  };
+
+  if (!totalPrice) {
+    return <CartEmpty />;
+  }
+
   return (
     <div className="container container--cart">
       <div className="cart">
@@ -42,7 +58,7 @@ function Cart() {
             </svg>
             Корзина
           </h2>
-          <div className="cart__clear">
+          <div onClick={onClickClear} className="cart__clear">
             <svg
               width="20"
               height="20"
@@ -84,21 +100,26 @@ function Cart() {
           </div>
         </div>
         <div className="content__items">
-          {items.map((item) => <CartItem key={item.id} {...item} />)}
+          {items.map((item) => (
+            <CartItem key={item.id} {...item} />
+          ))}
         </div>
         <div className="cart__bottom">
           <div className="cart__bottom-details">
             <span>
               {" "}
-              Всего пицц: <b>3 шт.</b>{" "}
+              Всего пицц: <b>{totalCount} шт.</b>{" "}
             </span>
             <span>
               {" "}
-              Сумма заказа: <b>900 ₽</b>{" "}
+              Сумма заказа: <b>{totalPrice} ₽</b>{" "}
             </span>
           </div>
           <div className="cart__bottom-buttons">
-            <Link to="/" className="button button--outline button--add go-back-btn">
+            <Link
+              to="/"
+              className="button button--outline button--add go-back-btn"
+            >
               <svg
                 width="8"
                 height="14"
@@ -123,7 +144,7 @@ function Cart() {
           </div>
         </div>
       </div>
-     </div> 
+    </div>
   );
 }
 
