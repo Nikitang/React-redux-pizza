@@ -19,6 +19,31 @@ body {
 .content {
   padding: 40px 0;
 
+  &__error-info {
+    margin: 60px auto;
+    width: 540px;
+    text-align: center;
+
+    h1 {
+      margin-bottom: 20px;
+      transition: 0.7s;
+
+      &:hover {
+        font-size: 49px;
+      }
+    }
+
+    h3 {
+      font-size: 20px;
+      margin-bottom: 10px;
+      transition: 0.5s;
+
+      &:hover {
+        font-size: 21px;
+      }
+    }
+  }
+
   &__title {
     margin: 35px 0;
     font-weight: 800;

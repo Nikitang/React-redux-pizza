@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
-import axios from "axios";
+import React, { useEffect, useContext, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import qs from "qs";
 import { useNavigate } from "react-router-dom";
@@ -15,6 +14,7 @@ import {
   setCurrentPage,
   setFilters,
 } from "../redux/slices/filterSlice.js";
+import { fetchPizzas } from "../redux/slices/pizzasSlice.js";
 import { sortMenu } from "../components/Sort.jsx";
 
 function Home() {
@@ -22,30 +22,28 @@ function Home() {
   const { categoryId, sort, currentPage } = useSelector(
     (state) => state.filterSlice
   );
+  const { items, status } = useSelector((state) => state.pizzasSlice);
   const dispatch = useDispatch();
+
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
   const { value } = useContext(Context);
-  const [items, setItems] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
 
   const fetching = async () => {
-    setIsLoading(true);
-
     const sortingForTitle = sort.sortParam === "title" ? "asc" : "desc";
     const sortingForCategory = categoryId > 0 ? `category=${categoryId}` : "";
     const searchingForTitle = value ? `&search=${value}` : "";
 
-    try {
-      const response = await axios.get(
-        `https://66f834c72a683ce9730ef214.mockapi.io/items?page=${currentPage}&limit=4&${sortingForCategory}&sortBy=${sort.sortParam}&order=${sortingForTitle}${searchingForTitle}`
-      );
-      setItems(response.data);
-      setIsLoading(false);
-    } catch (error) {
-      console.error(error);
-    }
+    dispatch(
+      fetchPizzas({
+        sortingForTitle,
+        sortingForCategory,
+        searchingForTitle,
+        sort,
+        currentPage,
+      })
+    );
   };
 
   useEffect(() => {
@@ -62,7 +60,7 @@ function Home() {
   }, [categoryId, sort.sortParam, currentPage]);
 
   useEffect(() => {
-    if (window.location.search) {
+    if (!window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
 
       const sort = sortMenu.find((obj) => obj.sortParam === params.sortParam);
@@ -100,7 +98,18 @@ function Home() {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">{isLoading ? skeletons : pizzas}</div>
+      {status === "error" ? (
+        <div className="content__error-info">
+          <h1>Произошла ошибка 😕</h1>
+          <h3>
+            Не удалось получить пиццы, попробуйте перезагрузить страницу 🔃
+          </h3>
+        </div>
+      ) : (
+        <div className="content__items">
+          {status === "loading" ? skeletons : pizzas}
+        </div>
+      )}
       <Pagination
         value={currentPage}
         fn={(num) => dispatch(setCurrentPage(num))}
