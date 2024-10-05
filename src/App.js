@@ -1,25 +1,24 @@
-import "./scss/app.scss";
-import React, { useState, createContext } from "react";
-import { Routes, Route } from "react-router-dom";
+import './scss/app.scss';
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 
-import Header from "./components/Header.jsx";
-import Home from "./pages/Home.jsx";
-import NotFound from "./pages/NotFound.jsx";
-import Cart from "./pages/Cart.jsx";
+import Home from './pages/Home.jsx';
+import NotFound from './pages/NotFound.jsx';
+import Cart from './pages/Cart.jsx';
+import FullPizza from './pages/FullPizza.jsx';
+import HeaderLayout from './layout/HeaderLayout.jsx';
 
 function App() {
-  return (
-    <div className="wrapper">
-      <Header />
-      <div className="content">
+    return (
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="*" element={<NotFound />} />
+            <Route path="/" element={<HeaderLayout />}>
+                <Route path="" element={<Home />} />
+                <Route path="cart" element={<Cart />} />
+                <Route path="pizza/:id" element={<FullPizza />} />
+                <Route path="*" element={<NotFound />} />
+            </Route>
         </Routes>
-      </div>
-    </div>
-  );
+    );
 }
 
 export default App;

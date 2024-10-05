@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import logoPizza from "../assets/img/pizza-logo.svg";
@@ -7,6 +7,8 @@ import { selectCart } from "../redux/slices/cartSlice";
 
 function Header() {
   const { totalPrice, items } = useSelector(selectCart);
+
+  const { pathname } = useLocation;
 
   const totalCount = items.reduce((acc, item) => acc + item.count, 0);
 
