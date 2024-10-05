@@ -8,32 +8,29 @@ import Sort from "../components/Sort.jsx";
 import PizzaBlock from "../components/PizzaBlock";
 import Skeleton from "../components/PizzaBlock/Skeleton.jsx";
 import Pagination from "../components/Pagination";
-import { Context } from "../App.js";
 import {
   setCategoryId,
   setCurrentPage,
   setFilters,
 } from "../redux/slices/filterSlice.js";
-import { fetchPizzas } from "../redux/slices/pizzasSlice.js";
+import { fetchPizzas, selectPizzas } from "../redux/slices/pizzasSlice.js";
+import { selectFilter } from "../redux/slices/filterSlice.js";
 import { sortMenu } from "../components/Sort.jsx";
 
 function Home() {
   const navigate = useNavigate();
-  const { categoryId, sort, currentPage } = useSelector(
-    (state) => state.filterSlice
-  );
-  const { items, status } = useSelector((state) => state.pizzasSlice);
+  const { categoryId, sort, currentPage, searchValue } =
+    useSelector(selectFilter);
+  const { items, status } = useSelector(selectPizzas);
   const dispatch = useDispatch();
 
   const isSearch = useRef(false);
   const isMounted = useRef(false);
 
-  const { value } = useContext(Context);
-
   const fetching = async () => {
     const sortingForTitle = sort.sortParam === "title" ? "asc" : "desc";
     const sortingForCategory = categoryId > 0 ? `category=${categoryId}` : "";
-    const searchingForTitle = value ? `&search=${value}` : "";
+    const searchingForTitle = searchValue ? `&search=${searchValue}` : "";
 
     dispatch(
       fetchPizzas({
@@ -47,7 +44,7 @@ function Home() {
   };
 
   useEffect(() => {
-    if (isMounted.current) {
+    if (!isMounted.current) {
       const queryString = qs.stringify({
         sortParam: sort.sortParam,
         categoryId,
@@ -83,7 +80,7 @@ function Home() {
     isSearch.current = false;
 
     window.scrollTo(0, 0);
-  }, [categoryId, sort.sortParam, value, currentPage]);
+  }, [categoryId, sort.sortParam, searchValue, currentPage]);
 
   const skeletons = [...new Array(6)].map((_, i) => <Skeleton key={i} />);
   const pizzas = items.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
