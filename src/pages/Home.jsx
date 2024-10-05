@@ -1,7 +1,7 @@
 import React, { useEffect, useContext, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import qs from 'qs';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import Categories from '../components/Categories.jsx';
 import Sort from '../components/Sort.jsx';
@@ -78,11 +78,7 @@ function Home() {
     }, [categoryId, sort.sortParam, searchValue, currentPage]);
 
     const skeletons = [...new Array(6)].map((_, i) => <Skeleton key={i} />);
-    const pizzas = items.map((pizza) => (
-        <Link to={`pizza/${pizza.id}`} key={pizza.id}>
-            <PizzaBlock {...pizza} />
-        </Link>
-    ));
+    const pizzas = items.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
 
     return (
         <div className="container">
