@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState, FC } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import MyLoader from '../components/PizzaBlock/Skeleton.jsx';
+import MyLoader from '../components/PizzaBlock/Skeleton';
 
 const FullPizza: FC = () => {
     const [pizza, setPizza] = useState<{

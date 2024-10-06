@@ -1,19 +1,19 @@
-import React, { useEffect, useContext, useRef } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 
-import Categories from '../components/Categories.jsx';
-import Sort from '../components/Sort.jsx';
+import Categories from '../components/Categories';
+import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
-import Skeleton from '../components/PizzaBlock/Skeleton.jsx';
+import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
 import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice.js';
 import { fetchPizzas, selectPizzas } from '../redux/slices/pizzasSlice.js';
 import { selectFilter } from '../redux/slices/filterSlice.js';
-import { sortMenu } from '../components/Sort.jsx';
+import { sortMenu } from '../components/Sort';
 
-function Home() {
+const Home: FC = () => {
     const navigate = useNavigate();
     const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
     const { items, status } = useSelector(selectPizzas);
@@ -28,6 +28,7 @@ function Home() {
         const searchingForTitle = searchValue ? `&search=${searchValue}` : '';
 
         dispatch(
+            //@ts-ignore
             fetchPizzas({
                 sortingForTitle,
                 sortingForCategory,
@@ -78,7 +79,7 @@ function Home() {
     }, [categoryId, sort.sortParam, searchValue, currentPage]);
 
     const skeletons = [...new Array(6)].map((_, i) => <Skeleton key={i} />);
-    const pizzas = items.map((pizza) => <PizzaBlock key={pizza.id} {...pizza} />);
+    const pizzas = items.map((pizza: any) => <PizzaBlock key={pizza.id} {...pizza} />);
 
     return (
         <div className="container">
@@ -98,6 +99,6 @@ function Home() {
             <Pagination value={currentPage} fn={(num) => dispatch(setCurrentPage(num))} />
         </div>
     );
-}
+};
 
 export default Home;
