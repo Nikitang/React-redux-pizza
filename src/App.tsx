@@ -5,7 +5,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home.jsx';
 import NotFound from './pages/NotFound.jsx';
 import Cart from './pages/Cart.jsx';
-import FullPizza from './pages/FullPizza.jsx';
+import FullPizza from './pages/FullPizza.tsx';
 import HeaderLayout from './layout/HeaderLayout.jsx';
 
 function App() {

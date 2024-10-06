@@ -1,10 +1,14 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, FC } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import MyLoader from '../components/PizzaBlock/Skeleton.jsx';
 
-function FullPizza() {
-    const [pizza, setPizza] = useState('');
+const FullPizza: FC = () => {
+    const [pizza, setPizza] = useState<{
+        imageUrl: string;
+        title: string;
+        price: number;
+    }>();
     const { id } = useParams();
     const navigate = useNavigate();
 
@@ -42,6 +46,6 @@ function FullPizza() {
     );
 
     return <>{render}</>;
-}
+};
 
 export default FullPizza;
