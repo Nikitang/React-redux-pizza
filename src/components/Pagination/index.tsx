@@ -5,7 +5,7 @@ import styles from './Pagination.module.scss';
 
 type IndexProps = {
     value: number;
-    fn: (index: number) => void;
+    fn: (page: number) => void;
 };
 
 const index: FC<IndexProps> = ({ value, fn }) => {

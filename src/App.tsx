@@ -1,5 +1,5 @@
 import './scss/app.scss';
-import React from 'react';
+import React, { FC } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
 import Home from './pages/Home';
@@ -8,7 +8,7 @@ import Cart from './pages/Cart';
 import FullPizza from './pages/FullPizza';
 import HeaderLayout from './layout/HeaderLayout';
 
-function App() {
+const App: FC = () => {
     return (
         <Routes>
             <Route path="/" element={<HeaderLayout />}>
@@ -19,6 +19,6 @@ function App() {
             </Route>
         </Routes>
     );
-}
+};
 
 export default App;

@@ -5,8 +5,9 @@ type CategoriesProps = {
     fn: (index: number) => void;
 };
 
+const arrCategories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
+
 const Categories: FC<CategoriesProps> = ({ value, fn }) => {
-    const arrCategories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
     return (
         <div className="categories">
             <ul>
