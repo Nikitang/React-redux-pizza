@@ -33,7 +33,7 @@ const Home: FC = () => {
                 sortingForTitle,
                 sortingForCategory,
                 searchingForTitle,
-                sort,
+                sort: sort.sortParam,
                 currentPage,
             })
         );
