@@ -8,16 +8,17 @@ import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination';
-import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice.js';
-import { fetchPizzas, selectPizzas } from '../redux/slices/pizzasSlice.js';
-import { selectFilter } from '../redux/slices/filterSlice.js';
+import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
+import { fetchPizzas, FetchPizzasParams, selectPizzas } from '../redux/slices/pizzasSlice';
+import { selectFilter } from '../redux/slices/filterSlice';
 import { sortMenu } from '../components/Sort';
+import { useAppDispach } from '../redux/store';
 
 const Home: FC = () => {
     const navigate = useNavigate();
     const { categoryId, sort, currentPage, searchValue } = useSelector(selectFilter);
     const { items, status } = useSelector(selectPizzas);
-    const dispatch = useDispatch();
+    const dispatch = useAppDispach();
 
     const isSearch = useRef(false);
     const isMounted = useRef(false);
@@ -28,7 +29,6 @@ const Home: FC = () => {
         const searchingForTitle = searchValue ? `&search=${searchValue}` : '';
 
         dispatch(
-            //@ts-ignore
             fetchPizzas({
                 sortingForTitle,
                 sortingForCategory,
@@ -60,8 +60,10 @@ const Home: FC = () => {
 
             dispatch(
                 setFilters({
-                    ...params,
-                    sort,
+                    searchValue: String(params.search),
+                    categoryId: Number(params.category),
+                    currentPage: Number(params.currentPage),
+                    sort: sort ? sort : sortMenu[0],
                 })
             );
             isSearch.current = true;
@@ -96,7 +98,7 @@ const Home: FC = () => {
             ) : (
                 <div className="content__items">{status === 'loading' ? skeletons : pizzas}</div>
             )}
-            <Pagination value={currentPage} fn={(num) => dispatch(setCurrentPage(num))} />
+            <Pagination value={currentPage} fn={(num: number) => dispatch(setCurrentPage(num))} />
         </div>
     );
 };

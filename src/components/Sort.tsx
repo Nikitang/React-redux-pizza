@@ -1,16 +1,16 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setSort, selectSort } from '../redux/slices/filterSlice';
+import { setSort, selectSort, SortParamEnum } from '../redux/slices/filterSlice';
 
 type SortType = {
     name: string;
-    sortParam: string;
+    sortParam: SortParamEnum;
 };
 
 export const sortMenu: SortType[] = [
-    { name: 'Популярности', sortParam: 'rating' },
-    { name: 'Цене', sortParam: 'price' },
-    { name: 'Алфавиту', sortParam: 'title' },
+    { name: 'Популярности', sortParam: SortParamEnum.RATING },
+    { name: 'Цене', sortParam: SortParamEnum.PRICE },
+    { name: 'Алфавиту', sortParam: SortParamEnum.TITLE },
 ];
 
 function Sort() {
