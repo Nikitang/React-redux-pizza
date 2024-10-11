@@ -7,7 +7,7 @@ type CategoriesProps = {
 
 const arrCategories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
 
-const Categories: FC<CategoriesProps> = ({ value, fn }) => {
+const Categories: FC<CategoriesProps> = React.memo(({ value, fn }) => {
     return (
         <div className="categories">
             <ul>
@@ -25,6 +25,6 @@ const Categories: FC<CategoriesProps> = ({ value, fn }) => {
             </ul>
         </div>
     );
-};
+});
 
 export default Categories;

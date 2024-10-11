@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC, useCallback, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
@@ -22,6 +22,10 @@ const Home: FC = () => {
 
     const isSearch = useRef(false);
     const isMounted = useRef(false);
+
+    const onChangeCategory = useCallback((id: number) => {
+        dispatch(setCategoryId(id));
+    }, []);
 
     const fetching = async () => {
         const sortingForTitle = sort.sortParam === 'title' ? 'asc' : 'desc';
@@ -86,8 +90,8 @@ const Home: FC = () => {
     return (
         <div className="container">
             <div className="content__top">
-                <Categories value={categoryId} fn={(id) => dispatch(setCategoryId(id))} />
-                <Sort />
+                <Categories value={categoryId} fn={onChangeCategory} />
+                <Sort value={sort} />
             </div>
             <h2 className="content__title">Все пиццы</h2>
             {status === 'error' ? (
