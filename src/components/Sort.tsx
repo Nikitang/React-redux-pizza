@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, FC, memo } from 'react';
 import { useDispatch } from 'react-redux';
-import { setSort, SortParamEnum } from '../redux/slices/filterSlice';
+import { SortParamEnum } from '../redux/filter/types';
+import { setSort } from '../redux/filter/slice';
 
 type SortType = {
     name: string;
@@ -38,7 +39,6 @@ const Sort: FC<SortPropsType> = memo(({ value }) => {
 
         return () => {
             document.body.removeEventListener('click', handleClickOutside);
-            console.log('UNM');
         };
     }, []);
 
