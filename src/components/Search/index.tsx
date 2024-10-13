@@ -7,7 +7,7 @@ import search from '../../assets/img/search.svg';
 import { useDispatch } from 'react-redux';
 import { setSearchValue } from '../../redux/filter/slice';
 
-const Search: FC = () => {
+export const Search: FC = () => {
     const dispatch = useDispatch();
 
     const [inputValue, setInputValue] = useState('');
@@ -47,5 +47,3 @@ const Search: FC = () => {
         </div>
     );
 };
-
-export default Search;

@@ -18,7 +18,7 @@ export const sortMenu: SortType[] = [
     { name: 'Алфавиту', sortParam: SortParamEnum.TITLE },
 ];
 
-const Sort: FC<SortPropsType> = memo(({ value }) => {
+export const Sort: FC<SortPropsType> = memo(({ value }) => {
     const dispatch = useDispatch();
     const sortRef = useRef<HTMLDivElement>(null);
     const [isVisible, setIsVisible] = useState(false);
@@ -80,5 +80,3 @@ const Sort: FC<SortPropsType> = memo(({ value }) => {
         </div>
     );
 });
-
-export default Sort;

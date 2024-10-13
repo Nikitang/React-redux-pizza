@@ -18,7 +18,7 @@ type PizzaBlockProps = {
     types: number[];
 };
 
-const PizzaBlock: FC<PizzaBlockProps> = ({ id, title, price, imageUrl, sizes, types }) => {
+export const PizzaBlock: FC<PizzaBlockProps> = ({ id, title, price, imageUrl, sizes, types }) => {
     const dispatch = useDispatch();
     const cartItem = useSelector(selectCartItemById(id));
     const [activeType, setActiveType] = useState(types[0]);
@@ -93,5 +93,3 @@ const PizzaBlock: FC<PizzaBlockProps> = ({ id, title, price, imageUrl, sizes, ty
         </div>
     );
 };
-
-export default PizzaBlock;

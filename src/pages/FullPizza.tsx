@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState, FC } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import MyLoader from '../components/PizzaBlock/Skeleton';
+import { Skeleton } from '../components';
 
 const FullPizza: FC = () => {
     const [pizza, setPizza] = useState<{
@@ -30,7 +30,7 @@ const FullPizza: FC = () => {
 
     const render = !pizza ? (
         <div className="pizza-block-wrapper">
-            <MyLoader />
+            <Skeleton />
         </div>
     ) : (
         <div className="pizza-block-wrapper">

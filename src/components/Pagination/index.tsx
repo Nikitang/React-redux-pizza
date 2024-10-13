@@ -8,7 +8,7 @@ type IndexProps = {
     fn: (page: number) => void;
 };
 
-const index: FC<IndexProps> = ({ value, fn }) => {
+export const Pagination: FC<IndexProps> = ({ value, fn }) => {
     return (
         <ReactPaginate
             className={styles.root}
@@ -23,5 +23,3 @@ const index: FC<IndexProps> = ({ value, fn }) => {
         />
     );
 };
-
-export default index;

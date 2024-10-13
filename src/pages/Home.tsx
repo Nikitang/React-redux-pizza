@@ -1,19 +1,15 @@
 import React, { FC, useCallback, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 
-import Categories from '../components/Categories';
-import Sort from '../components/Sort';
-import PizzaBlock from '../components/PizzaBlock';
-import Skeleton from '../components/PizzaBlock/Skeleton';
-import Pagination from '../components/Pagination';
+import { Categories, Pagination, PizzaBlock, Skeleton } from '../components';
 
-import { sortMenu } from '../components/Sort';
+import { Sort } from '../components/Sort';
 import { useAppDispach } from '../redux/store';
 import { selectPizzas } from '../redux/pizzas/selectors';
 import { selectFilter } from '../redux/filter/selectors';
-import { setCategoryId, setCurrentPage, setFilters } from '../redux/filter/slice';
+import { setCategoryId, setCurrentPage } from '../redux/filter/slice';
 import { fetchPizzas } from '../redux/pizzas/slice';
 
 const Home: FC = () => {
@@ -46,7 +42,7 @@ const Home: FC = () => {
     };
 
     useEffect(() => {
-        if (!isMounted.current) {
+        if (isMounted.current) {
             const queryString = qs.stringify({
                 sortParam: sort.sortParam,
                 categoryId,
@@ -58,23 +54,23 @@ const Home: FC = () => {
         isMounted.current = true;
     }, [categoryId, sort.sortParam, currentPage]);
 
-    useEffect(() => {
-        if (!window.location.search) {
-            const params = qs.parse(window.location.search.substring(1));
+    // useEffect(() => {
+    //     if (!window.location.search) {
+    //         const params = qs.parse(window.location.search.substring(1));
 
-            const sort = sortMenu.find((obj) => obj.sortParam === params.sortParam);
+    //         const sort = sortMenu.find((obj) => obj.sortParam === params.sortParam);
 
-            dispatch(
-                setFilters({
-                    searchValue: String(params.search),
-                    categoryId: Number(params.category),
-                    currentPage: Number(params.currentPage),
-                    sort: sort ? sort : sortMenu[0],
-                })
-            );
-            isSearch.current = true;
-        }
-    }, []);
+    //         dispatch(
+    //             setFilters({
+    //                 searchValue: String(params.search),
+    //                 categoryId: Number(params.category),
+    //                 currentPage: Number(params.currentPage),
+    //                 sort: sort ? sort : sortMenu[0],
+    //             })
+    //         );
+    //         isSearch.current = true;
+    //     }
+    // }, []);
 
     useEffect(() => {
         if (!isSearch.current) {

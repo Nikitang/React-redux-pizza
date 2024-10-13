@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
-import Header from '../components/Header';
+
 import { Outlet } from 'react-router-dom';
+import { Header } from '../components';
 
 const HeaderLayout: FC = () => {
     return (
